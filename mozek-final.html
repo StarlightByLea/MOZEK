@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="cs">
+<link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktivní mozek</title>
+</head>
+<body>
+<div class="grid-container">
+    <aside class="griditem--sidebar">
+        <img src="mozekprofilovka.jpg" width="100" alt="Terézia Lea Počarovská">
+        <a href="#">Matěj Pur</a>
+        <a href="#">Anna Smílková</a>
+        <a href="#">L. T. Počarovská</a>
+    </aside>
+    <header class="griditem--header">
+        <h1>Mozek v kondici</h1>
+    </header>
+    <main class="griditem--main">
+        <div class="inner-grid">
+            <div class="grid-cell" id="headerCell">
+                <h2>Interkativní mozek</h2>
+            </div>
+            <div class="grid-cell" id="infoKeyCell">
+            </div>
+            <div class="grid-cell" id="brainCell">
+                <div class="brain-container">
+                    <div class="svg-container">
+                        <svg viewBox="0 0 970 768">
+                            <image href="brainbarva.svg" x="185" y="0" width="600" height="475" />
+                            <ellipse class="hoverable" cx="610" cy="285" rx="60" ry="65" title="Mozeček" />
+                            <ellipse class="hoverable" cx="659" cy="195" rx="50" ry="70" title="Týlní lalok" />
+
+                            <path class="hoverable" title="Temenní lalok"
+                                  d="M 460 45
+                                  Q 540 30, 610 70
+                                  Q 650 100, 650 120
+                                  Q 650 130, 650 145
+                                  Q 640 220, 600 225
+                                  Q 500 165, 470 150
+                                  Q 440 170, 460 45 Z" />
+
+                            <path class="hoverable" title="Čelní lalok"
+                                  d="M 460 40
+                                  Q 400 40, 320 90
+                                  Q 220 160, 290 270
+                                  Q 270 260, 310 290
+                                  Q 330 310, 400 290
+                                  Q 440 270, 450 250
+                                  Q 370 200, 460 160
+                                  Q 460 150, 460 145 Z" />
+
+
+
+
+                            <path class="hoverable" title="Spánkový lalok"
+                                  d="M 370 260
+                                  Q 350 300, 380 320
+                                  Q 420 340, 480 330
+                                  Q 510 310, 490 280
+                                  Q 460 260, 440 250
+                                  Q 410 245, 370 260 Z" />
+
+                            <path class="hoverable" title="Mozkový kmen"
+                                  d="M 440 220
+                                  Q 450 260, 460 310
+                                  Q 470 360, 500 390
+                                  Q 530 420, 560 450
+                                  Q 590 460, 580 430
+                                  Q 560 380, 540 330
+                                  Q 530 290, 520 260
+                                  Q 500 220, 470 220
+                                  Q 450 220, 440 220 Z" />
+
+                            <path class="hoverable" title="Corpus callosum"
+                                  d="M 330 200
+                                  Q 335 170, 400 150
+                                  Q 510 160, 570 180
+                                  Q 610 190, 600 215
+                                  Q 595 230, 570 240
+                                  Q 510 250, 450 235
+                                  Q 430 230, 410 235
+                                  Q 380 240, 360 230
+                                  Q 340 225, 330 220
+                                  Q 320 215, 330 200 Z" />
+                        </svg>
+                    </div>
+                    <div id="tooltip" class="tooltip"></div>
+                </div>
+            </div>
+            <div class="grid-cell" id="infoValueCell">
+            </div>
+        </div>
+    </main>
+
+    <footer class="griditem--footer">
+        <p>Vytvořila © Terézia Lea Počarovská 2025.</p>
+    </footer>
+</div>
+
+<script>
+    const tooltip = document.getElementById('tooltip');
+    const hoverableElements = document.querySelectorAll('.hoverable');
+
+    hoverableElements.forEach(element => {
+        element.addEventListener('mouseenter', (e) => {
+            tooltip.innerText = e.currentTarget.getAttribute('title');
+            tooltip.style.opacity = 1;
+            tooltip.style.position = "fixed";
+            tooltip.style.left = e.clientX + 'px';
+            tooltip.style.top = (e.clientY - 20) + 'px';
+        });
+        element.addEventListener('mousemove', (e) => {
+            tooltip.style.left = e.clientX + 'px';
+            tooltip.style.top = (e.clientY - 20) + 'px';
+        });
+        element.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = 0;
+        });
+    });
+    let currentBrainPart = null;
+
+    const infoTexts = {
+        "Mozeček": {
+            key: "Mozeček",
+            value: "Podobně jako koncový mozek je tvořen dvěma hemisférami. " +
+                "Kůra obou mozečkových hemisfér je bohatě členěna a " +
+                "je uspořádána do vrstev, podobně jako v případě koncového mozku. " +
+                "Mozeček představuje ústředí pro regulaci a koordinaci motorické " +
+                "aktivity a polohy těla - proto je (vzhledem k velikosti těla) " +
+                "největší u obratlovců s rychlým či složitým pohybem. Mozeček sám " +
+                "o sobě pohybovou aktivitu nevyvolává, ale jen monitoruje a koordinuje. " +
+                "Do mozečku přicházejí informace o poloze a pohybu těla z několika zdrojů: " +
+                "z vestibulárního aparátu, ze zrakových receptorů, z proprioreceptorů " +
+                "ve svalech a šlachách a z hmatových receptorů. Pro narušení funkce " +
+                "mozečku dochází k závažným poruchám v koordinaci pohybu."
+        },
+        "Týlní lalok": {
+            key: "Týlní lalok",
+            value: "Týlní lalok, umístěný v zadní části mozku, " +
+                "je primárním centrem pro zpracování vizuálních informací. " +
+                "V této oblasti se integrují a analyzují signály z očí, " +
+                "což umožňuje rozpoznávat tvary, barvy a pohyby. Díky této funkci " +
+                "je týlní lalok klíčový pro vizuální orientaci, interpretaci okolí " +
+                "a navigaci v prostoru. Jeho správná funkce je nezbytná pro každodenní činnosti," +
+                " jako je čtení, rozpoznávání obličejů a řízení. Poruchy v této oblasti " +
+                "mohou vést ke zhoršenému vidění a problémům s interpretací vizuálních podnětů."
+        },
+        "Temenní lalok": {
+            key: "Temenní lalok",
+            value: "Temenní lalok, umístěný v horní části mozkové kůry" +
+                " za čelním lalokem, má zásadní úlohu při zpracování a" +
+                " integraci smyslových informací. Tato část mozku zodpovídá především " +
+                "za vnímání doteku, tlaku, teploty a bolesti, což umožňuje přesné tělesné " +
+                "vnímání a orientaci. Díky své schopnosti syntetizovat informace z různých " +
+                "smyslových systémů významně přispívá k prostorové orientaci, koordinaci pohybů" +
+                " a percepci okolního světa. Kromě toho se temenní lalok podílí na matematickém " +
+                "myšlení, jazykovém zpracování a učení, což z něj činí klíčovou oblast pro " +
+                "každodenní kognitivní činnosti a interakci s prostředím."
+        },
+        "Čelní lalok": {
+            key: "Čelní lalok",
+            value: "Čelní lalok, nacházející se v přední části mozku, " +
+                "je zásadní oblastí odpovědnou za vysoké kognitivní funkce. " +
+                "Patří sem plánování, rozhodování, kontrola chování, řešení " +
+                "problémů a motorická koordinace. Tato oblast také sehrává " +
+                "klíčovou roli v utváření osobnosti a sociálních interakcích, " +
+                "jelikož pomáhá řídit emoce a impulzy. Poškození čelního laloku " +
+                "může ovlivnit nejen motoriku, ale i schopnost adaptovat se na " +
+                "měnící se prostředí, což ilustruje jeho význam pro celkové fungování člověka."
+        },
+        "Spánkový lalok": {
+            key: "Spánkový lalok",
+            value: "Spánkový lalok, známý též jako temporální lalok, " +
+                "se nachází po stranách mozkové kůry a hraje klíčovou roli " +
+                "při zpracování sluchových informací. Tato oblast umožňuje vnímání, " +
+                "rozlišování a interpretaci zvuků, což je nezbytné pro porozumění řeči" +
+                " a hudbě. Kromě toho je spánkový lalok úzce spojen s paměťovými procesy" +
+                " – zejména díky hipokampu, který se nachází v jeho mediální části –, a " +
+                "přispívá tak k formování, ukládání a vybavování vzpomínek. Další důležitou" +
+                " funkcí je rozpoznávání tváří a zpracování emocionálních podnětů, což " +
+                "přispívá k sociální interakci a komunikaci. Poruchy této oblasti mohou " +
+                "vést k obtížím v porozumění slovům, ztrátě paměti či poruchám sociálního chování."
+        },
+        "Mozkový kmen": {
+            key: "Mozkový kmen",
+            value: "Mozkový kmen je nejstarší a " +
+                "nejvíce primitivní část mozku, která spojuje mozkovou kůru s míchou." +
+                "Skládá se ze tří hlavních oddílů: středního mozku, mostu a prodloužené míchy. " +
+                "Řídí základní životní funkce, jako je dýchání, srdeční činnost, krevní tlak a reflexy " +
+                "(např. polykací nebo zvracení). Dále je v něm umístěno sídlo rostoucí úrovně bdělosti " +
+                "(retikulární formace), která udržuje vědomí a spánek. Poškození mozkového kmene může " +
+                "vést k vážným potížím až ke stavu zvanému mozková smrt, protože narušuje klíčové autonomní funkce."
+        },
+        "Corpus callosum": {
+            key: "Corpus callosum",
+            value: "Corpus callosum je největší mozková komisa, " +
+                "která spojuje levou a pravou hemisféru mozku. " +
+                "Tato struktura se skládá z hustě balených nervových vláken pokrytých myelinem, " +
+                "což umožňuje velmi rychlý přenos informací mezi oběma polovinami mozku. " +
+                "Díky corpus callosum mohou být integrovány smyslové podněty, motorické příkazy " +
+                "i kognitivní procesy, což je nezbytné pro koordinovanou a synchronizovanou" +
+                " činnost celého mozku. Vývoj této struktury je klíčový pro normální neurologické funkce," +
+                " a její poruchy mohou vést k řadě neurologických deficitů, například ke problémům" +
+                " s koordinací nebo k poruchám v integrovaném zpracování informací."
+        }
+    };
+
+    hoverableElements.forEach(element => {
+        element.addEventListener('click', (e) => {
+            const selectedPart = e.currentTarget.getAttribute('title');
+            const infoKeyCell = document.getElementById('infoKeyCell');
+            const infoValueCell = document.getElementById('infoValueCell');
+
+            if (currentBrainPart === selectedPart) {
+                infoKeyCell.innerHTML = "";
+                infoValueCell.innerHTML = "";
+                currentBrainPart = null;
+            } else {
+                const info = infoTexts[selectedPart];
+                if (info) {
+                    infoKeyCell.innerHTML = `<h2>${info.key}</h2>`;
+                    infoValueCell.innerHTML = `<p>${info.value}</p>`;
+                }
+                currentBrainPart = selectedPart;
+            }
+        });
+    });
+</script>
+</body>
+</html>

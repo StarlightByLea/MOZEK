@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktivní mozek</title>
+    <style>
+        body {
+            background-color: #4d005b;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-areas:
+              "sidebar header"
+              "sidebar main"
+              "sidebar footer";
+            grid-template-columns: 200px auto;
+            grid-template-rows: auto;
+            gap: 10px;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .griditem--header {
+            grid-area: header;
+            background: white;
+            color: black;
+            text-align: left;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .griditem--sidebar {
+            grid-area: sidebar;
+            background: #4d005b;
+            color: white;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .griditem--sidebar img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .griditem--sidebar a {
+            color: rgb(195, 198, 199);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .griditem--main {
+            grid-area: main;
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .griditem--footer {
+            grid-area: footer;
+            text-align: left;
+            font-size: 12px;
+        }
+
+
+        .content-wrapper {
+            display: flex;
+            gap: 0px;
+            align-items: flex-start;
+        }
+        .brain-container {
+            position: relative;
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .brain-container h2 {
+            margin: 0 0 10px 0;
+            color: black;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hoverable {
+            fill: rgba(255, 0, 0, 0.2);
+            stroke: transparent;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hoverable:hover {
+            fill: rgba(198, 2, 255, 0.5);
+            stroke: #b700ff;
+        }
+
+        .tooltip {
+            position: fixed;
+            pointer-events: none;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .info-panel {
+            flex: 1;
+            background: white;
+            color: black;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 20px;
+            min-width: 250px;
+            overflow-y: auto;
+            margin-left: -90px;  /* Blok je tak více u levého okraje */
+        }
+    </style>
+</head>
+<body>
+<div class="grid-container">
+    <aside class="griditem--sidebar">
+        <img src="mozekprofilovka.jpg" width="100" alt="Terézia Lea Počarovská">
+        <a href="#">Matěj Pur</a>
+        <a href="#">Anna Smílková</a>
+        <a href="#">L. T. Počarovská</a>
+    </aside>
+
+    <header class="griditem--header">
+        <h1>Mozek v kondici</h1>
+    </header>
+
+    <main class="griditem--main">
+        <div class="content-wrapper">
+            <div class="brain-container">
+                <h2>Interaktivní mozek</h2>
+                <svg viewBox="0 0 970 768">
+                    <image href="brainbarva.svg" x="185" y="0" width="600" height="475" />
+
+                    <ellipse class="hoverable" cx="610" cy="285" rx="60" ry="65" title="Mozeček" />
+                    <ellipse class="hoverable" cx="659" cy="195" rx="50" ry="70" title="Týlní lalok" />
+                    <path class="hoverable" title="Temenní lalok"
+                          d="M 460 45 Q 540 30, 610 70 Q 650 100, 650 120 Q 650 130, 650 145 Q 640 220, 600 225 Q 500 165, 470 150 Q 440 170, 460 45 Z" />
+                    <path class="hoverable" title="Čelní lalok"
+                          d="M 460 40 Q 400 40, 320 90 Q 200 155, 290 270 Q 200 150, 290 270 Q 350 336, 450 250 Q 240 200, 460 145 Z" />
+                    <path class="hoverable" title="Spánkový lalok"
+                          d="M 370 260 Q 350 300, 380 320 Q 420 340, 480 330 Q 510 310, 490 280 Q 460 260, 440 250 Q 410 245, 370 260 Z" />
+                    <path class="hoverable" title="Mozkový kmen"
+                          d="M 440 220 Q 450 260, 460 310 Q 470 360, 500 390 Q 530 420, 560 450 Q 590 460, 580 430 Q 560 380, 540 330 Q 530 290, 520 260 Q 500 220, 470 220 Q 450 220, 440 220 Z" />
+                    <path class="hoverable" title="Corpus callosum"
+                          d="M 330 200 Q 335 170, 400 150 Q 510 160, 570 180 Q 610 190, 600 215 Q 595 230, 570 240 Q 510 250, 450 235 Q 430 230, 410 235 Q 380 240, 360 230 Q 340 225, 330 220 Q 320 215, 330 200 Z" />
+                </svg>
+                <div id="tooltip" class="tooltip"></div>
+            </div>
+            <div id="infoPanel" class="info-panel">
+                <!-- Zde se bude zobrazovat text po kliknutí -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="griditem--footer">
+        <p>Vytvořila © Terézia Lea Počarovská 2025.</p>
+    </footer>
+</div>
+
+<script>
+    // Tooltip obsluha (při hover efektu)
+    const tooltip = document.getElementById('tooltip');
+    const hoverableElements = document.querySelectorAll('.hoverable');
+
+    hoverableElements.forEach(element => {
+        element.addEventListener('mouseenter', (e) => {
+            tooltip.innerText = e.currentTarget.getAttribute('title');
+            tooltip.style.opacity = 1;
+            tooltip.style.position = "fixed";
+            tooltip.style.left = e.clientX + 'px';
+            tooltip.style.top = (e.clientY - 20) + 'px'; // tooltip bude výše než kurzor
+        });
+        element.addEventListener('mousemove', (e) => {
+            tooltip.style.left = e.clientX + 'px';
+            tooltip.style.top = (e.clientY - 20) + 'px';
+        });
+        element.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = 0;
+        });
+    });
+
+    // Informační panel (toggle při kliknutí na část mozku)
+    const infoPanel = document.getElementById('infoPanel');
+    let currentBrainPart = null;
+
+    const infoTexts = {
+        "Mozeček": `<h3>Mozeček</h3>
+                 <p>Podobně jako koncový mozek je tvořen dvěma hemisférami. Kůra obou mozečkových
+hemisfér je bohatě členěna a je uspořádána do vrstev, podobně jako v případě koncového
+mozku. Mozeček představuje ústředí pro regulaci a koordinaci motorické aktivity a polohy
+těla - proto je (vzhledem k velikosti těla) největší u obratlovců s rychlým či složitým pohybem.
+Mozeček sám o sobě pohybovou aktivitu nevyvolává, ale jen monitoruje a koordinuje. Do
+mozečku přicházejí informace o poloze a pohybu těla z několika zdrojů: z vestibulárního
+aparátu, ze zrakových receptorů, z proprioreceptorů ve svalech a šlachách a z hmatových
+receptorů. Pro narušení funkce mozečku dochází k závažným poruchám v koordinaci pohybu.
+</p>`,
+        "Týlní lalok": `<h3>Týlní lalok</h3>
+                     <p>Týlní lalok, umístěný v zadní části mozku, je primárním centrem pro zpracování vizuálních informací. V této oblasti se integrují a analyzují signály z očí, což umožňuje rozpoznávat tvary, barvy a pohyby. Díky této funkci je týlní lalok klíčový pro vizuální orientaci, interpretaci okolí a navigaci v prostoru. Jeho správná funkce je nezbytná pro každodenní činnosti, jako je čtení, rozpoznávání obličejů a řízení. Poruchy v této oblasti mohou vést ke zhoršenému vidění a problémům s interpretací vizuálních podnětů.</p>`,
+        "Temenní lalok": `<h3>Temenní lalok</h3>
+                      <p>Temenní lalok, umístěný v horní části mozkové kůry za čelním lalokem, má zásadní úlohu při zpracování a integraci smyslových informací. Tato část mozku zodpovídá především za vnímání doteku, tlaku, teploty a bolesti, což umožňuje přesné tělesné vnímání a orientaci. Díky své schopnosti syntetizovat informace z různých smyslových systémů významně přispívá k prostorové orientaci, koordinaci pohybů a percepci okolního světa. Kromě toho se temenní lalok podílí na matematickém myšlení, jazykovém zpracování a učení, což z něj činí klíčovou oblast pro každodenní kognitivní činnosti a interakci s prostředím.</p>`,
+        "Čelní lalok": `<h3>Čelní lalok</h3>
+                    <p>Čelní lalok, nacházející se v přední části mozku,
+                     je zásadní oblastí odpovědnou za vysoké kognitivní funkce.
+                     Patří sem plánování, rozhodování, kontrola chování,
+                     řešení problémů a motorická koordinace.
+                     Tato oblast také sehrává klíčovou roli v utváření osobnosti a sociálních interakcích,
+                     jelikož pomáhá řídit emoce a impulzy. Poškození čelního laloku může ovlivnit nejen motoriku, ale i schopnost adaptovat se na měnící se prostředí, což ilustruje jeho význam pro celkové fungování člověka.</p>`,
+        "Spánkový lalok": `<h3>Spánkový lalok</h3>
+                        <p>Spánkový lalok, známý též jako temporální lalok, se nachází po stranách mozkové kůry a hraje klíčovou roli při zpracování sluchových informací. Tato oblast umožňuje vnímání, rozlišování a interpretaci zvuků, což je nezbytné pro porozumění řeči a hudbě. Kromě toho je spánkový lalok úzce spojen s paměťovými procesy – zejména díky hipokampu, který se nachází v jeho mediální části –, a přispívá tak k formování, ukládání a vybavování vzpomínek. Další důležitou funkcí je rozpoznávání tváří a zpracování emocionálních podnětů, což přispívá k sociální interakci a komunikaci. Poruchy této oblasti mohou vést k obtížím v porozumění slovům, ztrátě paměti či poruchám sociálního chování.</p>`,
+        "Mozkový kmen": `<h3>Mozkový kmen</h3>
+                     <p>Mozkový kmen řídí základní životní funkce, jako je dýchání a srdeční činnost.</p>`,
+        "Corpus callosum": `<h3>Corpus callosum</h3>
+                         <p>Corpus callosum je největší mozková komisa, která spojuje levou a pravou hemisféru mozku. Tato struktura se skládá z hustě balených nervových vláken pokrytých myelinem, což umožňuje velmi rychlý přenos informací mezi oběma polovinami mozku. Díky corpus callosum mohou být integrovány smyslové podněty, motorické příkazy i kognitivní procesy, což je nezbytné pro koordinovanou a synchronizovanou činnost celého mozku. Vývoj této struktury je klíčový pro normální neurologické funkce, a její poruchy mohou vést k řadě neurologických deficitů, například ke problémům s koordinací nebo k poruchám v integrovaném zpracování informací.</p>`
+    };
+
+    hoverableElements.forEach(element => {
+        element.addEventListener('click', (e) => {
+            const selectedPart = e.currentTarget.getAttribute('title');
+            if (currentBrainPart === selectedPart) {
+                infoPanel.innerHTML = "";
+                currentBrainPart = null;
+            } else {
+                infoPanel.innerHTML = infoTexts[selectedPart] || "";
+                currentBrainPart = selectedPart;
+            }
+        });
+    });
+</script>
+</body>
+</html>
