@@ -131,75 +131,82 @@ svg {
     width: 550px;
     height: auto;
 }
-/* --- mobilní styl (do ~768px) --- */
+/* základ – SVG vždy vejde do kontejneru */
+.svg-container {
+  width: 100%;
+  max-width: 600px; /* nebo jak velké to chceš nejvíc */
+  margin: 0 auto;
+}
+.svg-container svg {
+  width: 100%;
+  height: auto;
+}
+
+/* mobilní layout pod 768px */
 @media (max-width: 768px) {
-    /* jednořádkový grid bez sidebaru */
-    .grid-container {
-        grid-template-areas:
+  /* jednosloupcový grid, sidebar pryč */
+  .grid-container {
+    grid-template-areas:
       "header"
       "main"
       "footer";
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
-        padding: 10px;
-    }
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    padding: 10px;
+  }
+  .griditem--sidebar {
+    display: none;
+  }
+  .griditem--header {
+    text-align: center;
+    padding: 15px;
+  }
 
-    /* sidebar skryjeme */
-    .griditem--sidebar {
-        display: none;
-    }
+  /* hlavní obsah zabere 100% */
+  .griditem--main {
+    padding: 10px;
+  }
+  .inner-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto);
+    gap: 20px;
+    margin: 0;
+  }
 
-    /* hezčí hlavička na celé šířce */
-    .griditem--header {
-        text-align: center;
-        padding: 15px;
-    }
-    .griditem--header h1 {
-        font-size: 1.8rem;
-        margin: 0;
-    }
+  /* texty a nadpisy přizpůsob */
+  .griditem--header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+  }
+  #headerCell h2 {
+    font-size: 1.4rem;
+  }
+  #infoKeyCell h2 {
+    font-size: 1.2rem;
+  }
+  #infoValueCell p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
 
-    /* hlavní obsah roztáhneme */
-    .griditem--main {
-        grid-area: main;
-        padding: 10px;
-    }
+  /* tooltip menší na mobil */
+  .tooltip {
+    font-size: 12px;
+  }
 
-    /* inner grid na jeden sloupec */
-    .inner-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        gap: 20px;
-        margin: 0;
-    }
-
-    /* titulek a texty zmenšíme pro mobil */
-    #headerCell h2 {
-        font-size: 1.4rem;
-    }
-    #infoKeyCell h2 {
-        font-size: 1.2rem;
-    }
-    #infoValueCell p {
-        font-size: 1rem;
-        line-height: 1.6;
-    }
-
-    /* svg roztáhneme na šířku kontejneru */
-    .svg-container svg {
-        width: 100%;
-        height: auto;
-    }
-
-    /* tooltip na mobilu trochu menší */
-    .tooltip {
-        font-size: 12px;
-    }
+  /* zamez horizontálnímu scrollu, pokud se náhodou objeví */
+  body, html {
+    overflow-x: hidden;
+  }
 }
 
-/* --- extra úzké telefony --- */
+/* pro opravdu úzké obrazovky pod 400px */
 @media (max-width: 400px) {
-    .griditem--header h1 { font-size: 1.6rem; }
-    #infoValueCell p { font-size: 0.9rem; }
+  .griditem--header h1 {
+    font-size: 1.6rem;
+  }
+  #infoValueCell p {
+    font-size: 0.9rem;
+  }
 }
